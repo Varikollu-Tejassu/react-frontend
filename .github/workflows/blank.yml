@@ -3,10 +3,10 @@ name: Deploy to EC2
 on:
   push:
     branches:
-      - main  # Adjust to your main branch name
+      - main
 
 jobs:
-  setup:
+  deploy:
     runs-on: ubuntu-latest
 
     steps:
@@ -22,14 +22,20 @@ jobs:
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
 
+      - name: Debug SSH key
+        run: |
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" | head -n 10
+          echo "SSH Key length: $(echo "${{ secrets.SSH_PRIVATE_KEY }}" | wc -c)"
+          ls -la ~/.ssh
+          cat ~/.ssh/id_rsa
+
       - name: Add SSH key to agent
         run: |
           eval "$(ssh-agent -s)"
           ssh-add ~/.ssh/id_rsa
 
       - name: Test SSH connection
-        run: |
-          ssh -o StrictHostKeyChecking=no -T git@github.com || true
+        run: ssh -o StrictHostKeyChecking=no -T git@github.com || true
 
       - name: Set up SSH tunnel to EC2 through bastion host
         run: |
