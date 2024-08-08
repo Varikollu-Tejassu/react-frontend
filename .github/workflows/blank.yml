@@ -3,7 +3,7 @@ name: Deploy to EC2
 on:
   push:
     branches:
-      - main  # Adjust to your main branch name
+      - main
 
 jobs:
   deploy:
@@ -21,17 +21,16 @@ jobs:
         with:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
-      - name: Set up SSH tunnel to private EC2 through bastion host
+      - name: Test SSH connection
+        run: ssh -o StrictHostKeyChecking=no -T git@github.com
+
+      - name: Set up SSH tunnel
         run: |
           ssh -o StrictHostKeyChecking=no -fNT -L 2222:10.0.0.47:22 ubuntu@3.110.43.35
-          sleep 5  # Wait for tunnel to establish
+          sleep 5
 
       - name: Deploy to private EC2 instance
         run: |
           ssh -o StrictHostKeyChecking=no -p 2222 ubuntu@localhost << 'EOF'
-            # Your deployment commands here
-            # For example:
-            sudo apt-get update
-            sudo apt-get install -y nginx
-            # Add more commands as needed
+            # Deployment commands
           EOF
