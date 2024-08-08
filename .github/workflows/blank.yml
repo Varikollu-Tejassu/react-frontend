@@ -44,10 +44,7 @@ jobs:
 
       - name: Deploy to private EC2 instance
         run: |
-          ssh -o StrictHostKeyChecking=no -p 2222 ubuntu@10.0.0.47 << 'EOF'
-            # Deployment commands here
-            cd /var/www/html/
-            pwd
-            # Add additional deployment steps such as restarting services or copying files
-            #sudo systemctl restart nginx
-          EOF
+          ssh -o StrictHostKeyChecking=no -p 22 ubuntu@10.0.0.47 
+          whoami
+          pwd
+          echo"${{whoami}}
