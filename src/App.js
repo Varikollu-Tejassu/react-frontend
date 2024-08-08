@@ -5,6 +5,7 @@ function App() {
   return (
     <div className="App">
       <h1>Hi Tejas</h1>
+      <h2>this is after nat gatewat</h2>
     </div>
   );
 }
