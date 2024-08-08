@@ -3,7 +3,6 @@ const API_URL = '10.0.0.47:8000'; // Replace with your backend server URL
 
 const axiosInstance = axios.create({
   baseURL: API_URL,
-  timeout: 5000,  // Timeout of 5 seconds
   headers: {
     'Content-Type': 'application/json',
   },
