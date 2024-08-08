@@ -39,15 +39,15 @@ jobs:
 
       - name: Set up SSH tunnel to EC2 through bastion host
         run: |
-          ssh -o StrictHostKeyChecking=no -fNT -L 2222:TARGET_EC2_PRIVATE_IP:22 ubuntu@BASTION_HOST_PUBLIC_IP
+          ssh -o StrictHostKeyChecking=no -fNT -L 2222:10.0.0.47:22 ubuntu@3.110.43.35
           sleep 5
 
       - name: Deploy to private EC2 instance
         run: |
-          ssh -o StrictHostKeyChecking=no -p 2222 ubuntu@localhost << 'EOF'
+          ssh -o StrictHostKeyChecking=no -p 2222 ubuntu@10.0.0.47 << 'EOF'
             # Deployment commands here
-            cd /path/to/your/app
-            git pull
+            cd /var/www/html/
+            pwd
             # Add additional deployment steps such as restarting services or copying files
-            sudo systemctl restart nginx
+            #sudo systemctl restart nginx
           EOF
