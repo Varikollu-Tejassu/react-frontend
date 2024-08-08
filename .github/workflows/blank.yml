@@ -44,5 +44,12 @@ jobs:
 
       - name: Deploy to private EC2 instance
         run: |
-          ssh -o StrictHostKeyChecking=no -p 22 ubuntu@10.0.0.47 
-          echo"${{whoami}}
+          ssh -o StrictHostKeyChecking=no -p 2222 ubuntu@localhost << 'EOF'
+            # Your deployment commands here
+            cd /path/to/your/app
+            echo "pwd $(pwd)"
+            # Additional deployment commands
+            echo "Deployment completed on $(whoami)"
+            # Restart services if needed
+            sudo systemctl restart nginx
+          EOF
