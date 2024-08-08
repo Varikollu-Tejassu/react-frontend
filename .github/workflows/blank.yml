@@ -3,10 +3,10 @@ name: Deploy to EC2
 on:
   push:
     branches:
-      - main
+      - main  # Adjust to your main branch name
 
 jobs:
-  deploy:
+  setup:
     runs-on: ubuntu-latest
 
     steps:
@@ -16,22 +16,32 @@ jobs:
       - name: Install SSH client
         run: sudo apt-get install -y openssh-client
 
-      - name: Add SSH key
+      - name: Set up SSH key
         run: |
+          mkdir -p ~/.ssh
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
+
+      - name: Add SSH key to agent
+        run: |
+          eval "$(ssh-agent -s)"
           ssh-add ~/.ssh/id_rsa
 
       - name: Test SSH connection
-        run: ssh -o StrictHostKeyChecking=no -T git@github.com
-
-      - name: Set up SSH tunnel
         run: |
-          ssh -o StrictHostKeyChecking=no -fNT -L 2222:10.0.0.47:22 ubuntu@3.110.43.35
+          ssh -o StrictHostKeyChecking=no -T git@github.com || true
+
+      - name: Set up SSH tunnel to EC2 through bastion host
+        run: |
+          ssh -o StrictHostKeyChecking=no -fNT -L 2222:TARGET_EC2_PRIVATE_IP:22 ubuntu@BASTION_HOST_PUBLIC_IP
           sleep 5
 
       - name: Deploy to private EC2 instance
         run: |
           ssh -o StrictHostKeyChecking=no -p 2222 ubuntu@localhost << 'EOF'
-            # Deployment commands
+            # Deployment commands here
+            cd /path/to/your/app
+            git pull
+            # Add additional deployment steps such as restarting services or copying files
+            sudo systemctl restart nginx
           EOF
