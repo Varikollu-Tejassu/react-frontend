@@ -45,6 +45,4 @@ jobs:
       - name: Deploy to private EC2 instance
         run: |
           ssh -o StrictHostKeyChecking=no -p 22 ubuntu@10.0.0.47 
-          whoami
-          pwd
           echo"${{whoami}}
