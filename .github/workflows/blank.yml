@@ -37,21 +37,11 @@ jobs:
       - name: Test SSH connection
         run: ssh -o StrictHostKeyChecking=no -T git@github.com || true
 
-  setup-tunnel:
-    runs-on: ubuntu-latest
-    needs: setup-ssh  # This job depends on setup-ssh job
-
-    steps:
       - name: Set up SSH tunnel to EC2 through bastion host
         run: |
           ssh -o StrictHostKeyChecking=no -v -fNT -L 2222:10.0.0.47:22 ubuntu@3.110.43.35
           sleep 5
 
-  deploy:
-    runs-on: ubuntu-latest
-    needs: setup-tunnel  # This job depends on setup-tunnel job
-
-    steps:
       - name: Deploy to private EC2 instance
         run: |
           ssh -o StrictHostKeyChecking=no -p 2222 ubuntu@localhost << 'EOF'
