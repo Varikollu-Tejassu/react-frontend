@@ -44,7 +44,7 @@ jobs:
     steps:
       - name: Set up SSH tunnel to EC2 through bastion host
         run: |
-          ssh -o StrictHostKeyChecking=no -fNT -L 2222:10.0.0.47:22 ubuntu@3.110.43.35
+          ssh -o StrictHostKeyChecking=no -v -fNT -L 2222:10.0.0.47:22 ubuntu@3.110.43.35
           sleep 5
 
   deploy:
