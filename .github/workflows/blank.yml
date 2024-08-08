@@ -46,6 +46,7 @@ jobs:
         run: |
           ssh -o StrictHostKeyChecking=no -p 2222 ubuntu@localhost << 'EOF'
             # Deployment commands here
+            sudo su
             cd /var/www/html/react-frontend/
             git pull
             npm i
