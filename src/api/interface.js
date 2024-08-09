@@ -1,5 +1,5 @@
 import axios from 'axios';
-const API_URL = 'http://testt-866894390.ap-south-1.elb.amazonaws.com/'; // Replace with your backend server URL
+const API_URL = 'http://internal-tejas-957390771.ap-south-1.elb.amazonaws.com/'; // Replace with your backend server URL
 
 const axiosInstance = axios.create({
   baseURL: API_URL,
