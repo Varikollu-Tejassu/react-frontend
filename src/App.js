@@ -23,8 +23,8 @@ const App = () => {
 
   return (
     <div>
-    <h1>hii tjas</h1>
-    <h2>Venkatesh gali</h2>
+    <h1>hii tejas</h1>
+    <h2>venkyh2>
     <h3>siva</h3>
       <h1>Backend Data:</h1>
       {loading ? (
